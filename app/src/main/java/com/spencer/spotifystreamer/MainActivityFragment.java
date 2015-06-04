@@ -2,6 +2,7 @@ package com.spencer.spotifystreamer;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +14,11 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +37,9 @@ import retrofit.RetrofitError;
 public class MainActivityFragment extends Fragment {
 
     private final String TAG = "spotify-streamer";
-    private ArrayAdapter<String> mArrayAdapter;
-    private String searchTerm = "red";
+    private ArrayAdapter<String> mArtistAdapter;
+    private ArrayAdapter<Image> mImageAdapter;
+    private ArrayList<String> mImageUrls;
 
     public MainActivityFragment() {
     }
@@ -62,14 +67,22 @@ public class MainActivityFragment extends Fragment {
                 return handled;
             }
         });
-        mArrayAdapter = new ArrayAdapter<>(
+
+        mImageAdapter = new ArrayAdapter<>(
+                getActivity(),
+                R.layout.search_list_item,
+                R.id.spotify_item_imageview,
+                new ArrayList<Image>()
+        );
+        mArtistAdapter = new ArrayAdapter<>(
                 getActivity(),
                 R.layout.search_list_item,
                 R.id.spotify_item_textview,
                 new ArrayList<String>()
         );
         ListView listView = (ListView) rootView.findViewById(R.id.search_list_view);
-        listView.setAdapter(mArrayAdapter);
+        listView.setAdapter(mArtistAdapter);
+        listView.setAdapter(mImageAdapter);
         return rootView;
     }
 
@@ -101,9 +114,11 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Artist> artists) {
             super.onPostExecute(artists);
-            mArrayAdapter.clear();
+            mArtistAdapter.clear();
+            mImageUrls = new ArrayList<>();
             for (int i = 0; i < artists.size(); i++) {
-                mArrayAdapter.add(artists.get(i).name);
+                mArtistAdapter.add(artists.get(i).name);
+                mImageUrls.add(artists.get(i).images.get(i).url);
             }
         }
     }

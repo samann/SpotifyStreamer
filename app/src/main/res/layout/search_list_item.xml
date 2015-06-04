@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher"
         android:padding="@dimen/padding"
-        android:contentDescription="@string/image_descripton" />
+        android:contentDescription="@string/image_descripton"
+        android:id="@+id/spotify_item_imageview"/>
 
     <TextView
         android:layout_width="wrap_content"
