@@ -12,18 +12,15 @@
         android:id="@+id/searchBar_linearlayout">
 
         <EditText
-            android:layout_width="243dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/search_edittext"
             android:hint="@string/search_hint"
             android:gravity="center_horizontal"
-            android:layout_weight="0" />
+            android:layout_weight="0"
+            android:imeOptions="actionSend"
+            android:inputType="textAutoComplete" />
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/search_button"
-            android:layout_weight="2" />
     </LinearLayout>
 
 
