@@ -1,11 +1,14 @@
 package com.spencer.spotifystreamer;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -22,8 +25,21 @@ public class ArtistTopTenAdapter extends ArrayAdapter<ArtistTopTen> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        return super.getView(position, convertView, parent);
+        ArtistTopTen track = (ArtistTopTen) getItem(position);
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.track_list_item, parent, false);
+            viewHolder.trackNameView = (TextView) convertView.findViewById(R.id.track_item_textview);
+            viewHolder.trackImageView = (ImageView) convertView.findViewById(R.id.track_item_imageview);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        viewHolder.trackNameView.setText(track.getTrackName());
+        Picasso.with(getContext()).load(track.getImageUrl()).resize(150, 150).into(viewHolder.trackImageView);
+        return convertView;
     }
 
     private class ViewHolder {
