@@ -2,7 +2,6 @@ package com.spencer.spotifystreamer;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +32,8 @@ import retrofit.RetrofitError;
 public class MainActivityFragment extends Fragment {
 
     private final String TAG = "spotify-streamer";
-    private ArrayAdapter<String> mArtistAdapter;
-    private ArrayAdapter<Image> mImageAdapter;
-    private ArrayList<String> mImageUrls;
+    private ArrayList<SpotifyArtist> mSpotifyArtists;
+    private SpotifyArtistAdapter mArtistAdapter;
 
     public MainActivityFragment() {
     }
@@ -67,22 +61,10 @@ public class MainActivityFragment extends Fragment {
                 return handled;
             }
         });
-
-        mImageAdapter = new ArrayAdapter<>(
-                getActivity(),
-                R.layout.search_list_item,
-                R.id.spotify_item_imageview,
-                new ArrayList<Image>()
-        );
-        mArtistAdapter = new ArrayAdapter<>(
-                getActivity(),
-                R.layout.search_list_item,
-                R.id.spotify_item_textview,
-                new ArrayList<String>()
-        );
+        mSpotifyArtists = new ArrayList<>();
+        mArtistAdapter = new SpotifyArtistAdapter(getActivity(), mSpotifyArtists);
         ListView listView = (ListView) rootView.findViewById(R.id.search_list_view);
         listView.setAdapter(mArtistAdapter);
-        listView.setAdapter(mImageAdapter);
         return rootView;
     }
 
@@ -115,11 +97,17 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(List<Artist> artists) {
             super.onPostExecute(artists);
             mArtistAdapter.clear();
-            mImageUrls = new ArrayList<>();
+            String url;
             for (int i = 0; i < artists.size(); i++) {
-                mArtistAdapter.add(artists.get(i).name);
-                mImageUrls.add(artists.get(i).images.get(i).url);
+                try {
+                    url = artists.get(i).images.get(0).url;
+                } catch (Exception e) {
+                    //NOP
+                    url = "https://avatars1.githubusercontent.com/u/251374?v=3&s=200";
+                }
+                mSpotifyArtists.add(new SpotifyArtist(artists.get(i).name, url));
             }
+            mArtistAdapter.addAll(mSpotifyArtists);
         }
     }
 }
