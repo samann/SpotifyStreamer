@@ -4,4 +4,6 @@
     <string name="search_hint">Search For Artist</string>
     <string name="search_button">Search</string>
     <string name="image_descripton">The Artist Album Image</string>
+    <string name="title_activity_top_ten">TopTenActivity</string>
+    <string name="hello_world">Hello world!</string>
 </resources>

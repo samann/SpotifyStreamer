@@ -2,6 +2,7 @@ package com.spencer.spotifystreamer;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -65,6 +67,16 @@ public class MainActivityFragment extends Fragment {
         mArtistAdapter = new SpotifyArtistAdapter(getActivity(), mSpotifyArtists);
         ListView listView = (ListView) rootView.findViewById(R.id.search_list_view);
         listView.setAdapter(mArtistAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SpotifyArtist artist = (SpotifyArtist) mArtistAdapter.getItem(position);
+                String name = artist.getName();
+                Intent intent = new Intent(getActivity(), TopTenActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, name);
+                startActivity(intent);
+            }
+        });
         return rootView;
     }
 
