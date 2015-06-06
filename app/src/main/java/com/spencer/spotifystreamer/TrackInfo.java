@@ -5,17 +5,19 @@ package com.spencer.spotifystreamer;
  *
  * @author Spencer Amann
  */
-public class ArtistTopTen {
+public class TrackInfo {
     private String trackName;
     private String imageUrl;
+    private String trackUrl;
 
-    public ArtistTopTen() {
+    public TrackInfo() {
         super();
     }
 
-    public ArtistTopTen(String trackName, String imageUrl) {
+    public TrackInfo(String trackName, String imageUrl, String trackUri) {
         this.trackName = trackName;
         this.imageUrl = imageUrl;
+        this.trackUrl = trackUri;
     }
 
     public String getTrackName() {
@@ -25,4 +27,6 @@ public class ArtistTopTen {
     public String getImageUrl() {
         return imageUrl;
     }
+
+    public String getTrackUrl() { return trackUrl; }
 }

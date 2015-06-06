@@ -17,15 +17,15 @@ import java.util.ArrayList;
  *
  * @author Spencer Amann
  */
-public class ArtistTopTenAdapter extends ArrayAdapter<ArtistTopTen> {
+public class ArtistTopTenAdapter extends ArrayAdapter<TrackInfo> {
 
-    public ArtistTopTenAdapter(Context context, ArrayList<ArtistTopTen> topTenArrayList) {
+    public ArtistTopTenAdapter(Context context, ArrayList<TrackInfo> topTenArrayList) {
         super(context, 0, topTenArrayList);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ArtistTopTen track = getItem(position);
+        TrackInfo track = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();

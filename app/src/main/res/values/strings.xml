@@ -7,4 +7,8 @@
     <string name="title_activity_top_ten">TopTenActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="track_image_descripton">Track Album Cover</string>
+    <string name="title_activity_track">TrackActivity</string>
+    <string name="play_button">Play</string>
+    <string name="next_button">Next</string>
+    <string name="back_button">back</string>
 </resources>

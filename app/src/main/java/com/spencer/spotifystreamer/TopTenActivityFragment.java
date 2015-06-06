@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import retrofit.RetrofitError;
 public class TopTenActivityFragment extends Fragment {
 
     private static final String TAG = "top-ten-tracks";
-    private ArrayList<ArtistTopTen> mArtistTopTens;
+    private ArrayList<TrackInfo> mTrackInfos;
     private ArtistTopTenAdapter mArtistTopTenAdapter;
 
     public TopTenActivityFragment() {
@@ -43,14 +44,34 @@ public class TopTenActivityFragment extends Fragment {
             String name = intent.getExtras().getString(Intent.EXTRA_TEXT);
             searchTopTen(name);
         }
-        mArtistTopTens = new ArrayList<>();
+        mTrackInfos = new ArrayList<>();
         mArtistTopTenAdapter = new ArtistTopTenAdapter(
                 getActivity(),
-                mArtistTopTens
+                mTrackInfos
         );
         ListView listView = (ListView) rootView.findViewById(R.id.top_ten_listview);
         listView.setAdapter(mArtistTopTenAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TrackInfo trackInfo = mArtistTopTenAdapter.getItem(position);
+                String trackName = trackInfo.getTrackName();
+                String imageUrl = trackInfo.getImageUrl();
+                String trackUrl = trackInfo.getTrackUrl();
+                Intent trackIntent = new Intent(getActivity(), TrackActivity.class);
+                trackIntent.putExtra("trackName", trackName);
+                trackIntent.putExtra("imageUrl", imageUrl);
+                trackIntent.putExtra("trackUrl", trackUrl);
+                startActivity(trackIntent);
+            }
+        });
         return rootView;
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
     }
 
     private void searchTopTen(String name) {
@@ -84,19 +105,19 @@ public class TopTenActivityFragment extends Fragment {
             }
             for (Track track : tracks.tracks) {
                 try {
-                    String url = null;
+                    String url;
                     int width = track.album.images.get(0).width;
                     if (width > 300) {
                         url = track.album.images.get(1).url;
                     } else {
                         url = track.album.images.get(0).url;
                     }
-                    mArtistTopTens.add(new ArtistTopTen(track.name, url));
+                    mTrackInfos.add(new TrackInfo(track.name, url, track.preview_url));
                 } catch (Exception e) {
-                    mArtistTopTens.add(new ArtistTopTen(track.name, null));
+                    mTrackInfos.add(new TrackInfo(track.name, null, track.preview_url));
                 }
             }
-            mArtistTopTenAdapter.addAll(mArtistTopTens);
+            mArtistTopTenAdapter.addAll(mTrackInfos);
         }
     }
 }
