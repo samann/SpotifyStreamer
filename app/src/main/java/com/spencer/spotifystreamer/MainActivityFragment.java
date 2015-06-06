@@ -71,9 +71,9 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SpotifyArtist artist = (SpotifyArtist) mArtistAdapter.getItem(position);
-                String name = artist.getName();
+                String artistId = artist.getId();
                 Intent intent = new Intent(getActivity(), TopTenActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, name);
+                        .putExtra(Intent.EXTRA_TEXT, artistId);
                 startActivity(intent);
             }
         });
@@ -112,12 +112,17 @@ public class MainActivityFragment extends Fragment {
             String url;
             for (int i = 0; i < artists.size(); i++) {
                 try {
-                    url = artists.get(i).images.get(0).url;
+                    int width = artists.get(i).images.get(0).width;
+                    if (width > 300) {
+                        url = artists.get(i).images.get(1).url;
+                    } else {
+                        url = artists.get(i).images.get(0).url;
+                    }
                 } catch (Exception e) {
                     //NOP
-                    url = "https://avatars1.githubusercontent.com/u/251374?v=3&s=200";
+                    url = null;
                 }
-                mSpotifyArtists.add(new SpotifyArtist(artists.get(i).name, url));
+                mSpotifyArtists.add(new SpotifyArtist(artists.get(i).name, url, artists.get(i).id));
             }
             mArtistAdapter.addAll(mSpotifyArtists);
         }

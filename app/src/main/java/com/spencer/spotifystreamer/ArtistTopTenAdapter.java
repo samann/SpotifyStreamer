@@ -25,7 +25,7 @@ public class ArtistTopTenAdapter extends ArrayAdapter<ArtistTopTen> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ArtistTopTen track = (ArtistTopTen) getItem(position);
+        ArtistTopTen track = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -38,7 +38,7 @@ public class ArtistTopTenAdapter extends ArrayAdapter<ArtistTopTen> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.trackNameView.setText(track.getTrackName());
-        Picasso.with(getContext()).load(track.getImageUrl()).resize(150, 150).into(viewHolder.trackImageView);
+        Picasso.with(getContext()).load(track.getImageUrl()).resize(150, 150).placeholder(R.mipmap.place_holder_image).into(viewHolder.trackImageView);
         return convertView;
     }
 

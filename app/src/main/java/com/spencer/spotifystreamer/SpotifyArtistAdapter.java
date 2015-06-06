@@ -37,7 +37,7 @@ public class SpotifyArtistAdapter extends ArrayAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.name.setText(spotifyArtist.getName());
-        Picasso.with(getContext()).load(spotifyArtist.getImageUrl()).resize(150, 150).into(viewHolder.image);
+        Picasso.with(getContext()).load(spotifyArtist.getImageUrl()).resize(150, 150).placeholder(R.mipmap.place_holder_image).into(viewHolder.image);
         return convertView;
     }
 

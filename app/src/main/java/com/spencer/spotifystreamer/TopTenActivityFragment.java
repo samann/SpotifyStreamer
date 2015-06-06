@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyError;
@@ -25,6 +27,7 @@ import retrofit.RetrofitError;
  */
 public class TopTenActivityFragment extends Fragment {
 
+    private static final String TAG = "top-ten-tracks";
     private ArrayList<ArtistTopTen> mArtistTopTens;
     private ArtistTopTenAdapter mArtistTopTenAdapter;
 
@@ -60,9 +63,10 @@ public class TopTenActivityFragment extends Fragment {
         protected Tracks doInBackground(String... params) {
             SpotifyApi api = new SpotifyApi();
             SpotifyService service = api.getService();
+            Map<String, Object> country = new HashMap<>();
+            country.put("country", Locale.getDefault().getCountry());
             try {
-                Tracks tracks = service.getArtistTopTrack(params[0]);
-                return tracks;
+                return service.getArtistTopTrack(params[0], country);
             }
             catch (RetrofitError e) {
                 SpotifyError error = SpotifyError.fromRetrofitError(e);
@@ -74,11 +78,22 @@ public class TopTenActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(Tracks tracks) {
             super.onPostExecute(tracks);
+            if (tracks == null) {
+                Log.e(TAG, "tracks is null");
+                return;
+            }
             for (Track track : tracks.tracks) {
                 try {
-                    mArtistTopTens.add(new ArtistTopTen(track.name, track.album.images.get(0).url));
+                    String url = null;
+                    int width = track.album.images.get(0).width;
+                    if (width > 300) {
+                        url = track.album.images.get(1).url;
+                    } else {
+                        url = track.album.images.get(0).url;
+                    }
+                    mArtistTopTens.add(new ArtistTopTen(track.name, url));
                 } catch (Exception e) {
-                    mArtistTopTens.add(new ArtistTopTen(track.name, "https://avatars1.githubusercontent.com/u/251374?v=3&s=200"));
+                    mArtistTopTens.add(new ArtistTopTen(track.name, null));
                 }
             }
             mArtistTopTenAdapter.addAll(mArtistTopTens);
