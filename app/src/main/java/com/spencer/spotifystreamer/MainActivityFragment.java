@@ -36,6 +36,8 @@ public class MainActivityFragment extends Fragment {
     private final String TAG = "spotify-streamer";
     private ArrayList<SpotifyArtist> mSpotifyArtists;
     private SpotifyArtistAdapter mArtistAdapter;
+    private ListView mListView;
+    private String mSearchQueryText;
 
     public MainActivityFragment() {
     }
@@ -50,12 +52,18 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         final EditText searchText = (EditText) rootView.findViewById(R.id.search_edittext);
+
+        mListView = (ListView) rootView.findViewById(R.id.search_list_view);
+        mSpotifyArtists = new ArrayList<>();
+        bindView();
+
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    searchForArtist(searchText.getText().toString());
+                    mSearchQueryText = searchText.getText().toString();
+                    searchForArtist(mSearchQueryText);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
                     handled = true;
@@ -63,11 +71,8 @@ public class MainActivityFragment extends Fragment {
                 return handled;
             }
         });
-        mSpotifyArtists = new ArrayList<>();
-        mArtistAdapter = new SpotifyArtistAdapter(getActivity(), mSpotifyArtists);
-        ListView listView = (ListView) rootView.findViewById(R.id.search_list_view);
-        listView.setAdapter(mArtistAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SpotifyArtist artist = (SpotifyArtist) mArtistAdapter.getItem(position);
@@ -78,6 +83,36 @@ public class MainActivityFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    private void bindView() {
+        mArtistAdapter = new SpotifyArtistAdapter(getActivity(), mSpotifyArtists);
+
+        mListView.setAdapter(mArtistAdapter);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mSpotifyArtists != null) {
+            outState.putParcelableArrayList(getString(R.string.saved_artist_list), mSpotifyArtists);
+        }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mSpotifyArtists = savedInstanceState.getParcelableArrayList(getString(R.string.saved_artist_list));
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (mSpotifyArtists != null && savedInstanceState != null) {
+            mSpotifyArtists = savedInstanceState.getParcelableArrayList(getString(R.string.saved_artist_list));
+        }
     }
 
     private void searchForArtist(String artistName) {

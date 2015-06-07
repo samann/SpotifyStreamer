@@ -29,9 +29,9 @@ import retrofit.RetrofitError;
 public class TopTenActivityFragment extends Fragment {
 
     private static final String TAG = "top-ten-tracks";
-    private ArrayList<TrackInfo> mTrackInfos;
+    private ArrayList<TrackInfo> mTrackInfoList;
     private ArtistTopTenAdapter mArtistTopTenAdapter;
-
+    private ListView mListView;
     public TopTenActivityFragment() {
     }
 
@@ -40,18 +40,26 @@ public class TopTenActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         Intent intent = getActivity().getIntent();
         View rootView = inflater.inflate(R.layout.fragment_top_ten, container, false);
-        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-            String name = intent.getExtras().getString(Intent.EXTRA_TEXT);
-            searchTopTen(name);
+
+
+        mListView = (ListView) rootView.findViewById(R.id.top_ten_listview);
+
+        mTrackInfoList = new ArrayList<>();
+
+        bindView();
+
+        boolean stateRestored = savedInstanceState != null;
+
+        if (!stateRestored) {
+            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+                String name = intent.getExtras().getString(Intent.EXTRA_TEXT);
+                searchTopTen(name);
+            }
+        } else {
+            mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
+            bindView();
         }
-        mTrackInfos = new ArrayList<>();
-        mArtistTopTenAdapter = new ArtistTopTenAdapter(
-                getActivity(),
-                mTrackInfos
-        );
-        ListView listView = (ListView) rootView.findViewById(R.id.top_ten_listview);
-        listView.setAdapter(mArtistTopTenAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TrackInfo trackInfo = mArtistTopTenAdapter.getItem(position);
@@ -68,10 +76,34 @@ public class TopTenActivityFragment extends Fragment {
         return rootView;
     }
 
+    private void bindView() {
+        mArtistTopTenAdapter = new ArtistTopTenAdapter(
+                getActivity(),
+                mTrackInfoList
+        );
+        mListView.setAdapter(mArtistTopTenAdapter);
+    }
+
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
+        }
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState != null) {
+            mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(getString(R.string.saved_track_list), mTrackInfoList);
     }
 
     private void searchTopTen(String name) {
@@ -112,12 +144,12 @@ public class TopTenActivityFragment extends Fragment {
                     } else {
                         url = track.album.images.get(0).url;
                     }
-                    mTrackInfos.add(new TrackInfo(track.name, url, track.preview_url));
+                    mTrackInfoList.add(new TrackInfo(track.name, url, track.preview_url));
                 } catch (Exception e) {
-                    mTrackInfos.add(new TrackInfo(track.name, null, track.preview_url));
+                    mTrackInfoList.add(new TrackInfo(track.name, null, track.preview_url));
                 }
             }
-            mArtistTopTenAdapter.addAll(mTrackInfos);
+            mArtistTopTenAdapter.addAll(mTrackInfoList);
         }
     }
 }

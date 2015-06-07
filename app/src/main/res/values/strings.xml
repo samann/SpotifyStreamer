@@ -11,4 +11,6 @@
     <string name="play_button">Play</string>
     <string name="next_button">Next</string>
     <string name="back_button">back</string>
+    <string name="saved_artist_list">savedArtistList</string>
+    <string name="saved_track_list">savedTrackList</string>
 </resources>
