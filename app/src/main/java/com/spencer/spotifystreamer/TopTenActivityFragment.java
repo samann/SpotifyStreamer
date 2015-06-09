@@ -36,9 +36,26 @@ public class TopTenActivityFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState == null) {
+            Intent intent = getActivity().getIntent();
+            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+                String name = intent.getExtras().getString(Intent.EXTRA_TEXT);
+                searchTopTen(name);
+            }
+            Log.d("top-ten", "Saved is null");
+        } else {
+            mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
+            Log.d("top-ten", "Saved is not null");
+        }
+        bindView();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Intent intent = getActivity().getIntent();
+
         View rootView = inflater.inflate(R.layout.fragment_top_ten, container, false);
 
 
@@ -46,19 +63,7 @@ public class TopTenActivityFragment extends Fragment {
 
         mTrackInfoList = new ArrayList<>();
 
-        bindView();
 
-        boolean stateRestored = savedInstanceState != null;
-
-        if (!stateRestored) {
-            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                String name = intent.getExtras().getString(Intent.EXTRA_TEXT);
-                searchTopTen(name);
-            }
-        } else {
-            mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
-            bindView();
-        }
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -85,25 +90,10 @@ public class TopTenActivityFragment extends Fragment {
     }
 
     @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
-        }
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState != null) {
-            mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
-        }
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(getString(R.string.saved_track_list), mTrackInfoList);
+        Log.d("top-ten", "saved " + !(mTrackInfoList.isEmpty()));
+        super.onSaveInstanceState(outState);
     }
 
     private void searchTopTen(String name) {
