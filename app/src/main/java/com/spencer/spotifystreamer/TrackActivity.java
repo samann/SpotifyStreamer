@@ -7,10 +7,17 @@ import android.view.MenuItem;
 
 public class TrackActivity extends Activity {
 
+    private String artistName;
+    private String trackName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track);
+        artistName = getIntent().getStringExtra("artistName");
+        trackName = getIntent().getStringExtra("trackName");
+        assert getActionBar() != null;
+        getActionBar().setTitle(artistName);
+        getActionBar().setSubtitle(trackName);
     }
 
 
@@ -34,5 +41,12 @@ public class TrackActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("artistName", artistName);
+        outState.putString("trackName", trackName);
     }
 }

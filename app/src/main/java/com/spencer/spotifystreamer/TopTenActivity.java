@@ -2,14 +2,30 @@ package com.spencer.spotifystreamer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class TopTenActivity extends Activity {
 
+    private String artistName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            if (getIntent() != null && getIntent().hasExtra("artistName")) {
+                artistName = getIntent().getStringExtra("artistName");
+            } else {
+                artistName = "";
+            }
+        } else {
+            artistName = savedInstanceState.getString("artistName");
+        }
+
+        assert getActionBar() != null;
+        getActionBar().setTitle(R.string.app_name);
+        getActionBar().setSubtitle(artistName);
         setContentView(R.layout.activity_top_ten);
     }
 
@@ -34,5 +50,11 @@ public class TopTenActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString("artistName", artistName);
     }
 }

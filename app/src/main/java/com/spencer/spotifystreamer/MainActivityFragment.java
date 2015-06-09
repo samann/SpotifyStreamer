@@ -78,7 +78,9 @@ public class MainActivityFragment extends Fragment {
                 SpotifyArtist artist = (SpotifyArtist) mArtistAdapter.getItem(position);
                 String artistId = artist.getId();
                 Intent intent = new Intent(getActivity(), TopTenActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, artistId);
+                        .putExtra(Intent.EXTRA_TEXT, artistId)
+                        .putExtra("artistName", artist.getName());
+
                 startActivity(intent);
             }
         });
@@ -104,14 +106,7 @@ public class MainActivityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             mSpotifyArtists = savedInstanceState.getParcelableArrayList(getString(R.string.saved_artist_list));
-        }
-    }
-
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (mSpotifyArtists != null && savedInstanceState != null) {
-            mSpotifyArtists = savedInstanceState.getParcelableArrayList(getString(R.string.saved_artist_list));
+            bindView();
         }
     }
 

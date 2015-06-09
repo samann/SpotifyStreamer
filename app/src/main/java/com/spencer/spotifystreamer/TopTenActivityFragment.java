@@ -44,10 +44,8 @@ public class TopTenActivityFragment extends Fragment {
                 String name = intent.getExtras().getString(Intent.EXTRA_TEXT);
                 searchTopTen(name);
             }
-            Log.d("top-ten", "Saved is null");
         } else {
             mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
-            Log.d("top-ten", "Saved is not null");
         }
         bindView();
     }
@@ -63,7 +61,6 @@ public class TopTenActivityFragment extends Fragment {
 
         mTrackInfoList = new ArrayList<>();
 
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -71,10 +68,14 @@ public class TopTenActivityFragment extends Fragment {
                 String trackName = trackInfo.getTrackName();
                 String imageUrl = trackInfo.getImageUrl();
                 String trackUrl = trackInfo.getTrackUrl();
+                String artistName = trackInfo.getArtistName();
                 Intent trackIntent = new Intent(getActivity(), TrackActivity.class);
+
                 trackIntent.putExtra("trackName", trackName);
                 trackIntent.putExtra("imageUrl", imageUrl);
                 trackIntent.putExtra("trackUrl", trackUrl);
+                trackIntent.putExtra("artistName", artistName);
+
                 startActivity(trackIntent);
             }
         });
@@ -134,9 +135,9 @@ public class TopTenActivityFragment extends Fragment {
                     } else {
                         url = track.album.images.get(0).url;
                     }
-                    mTrackInfoList.add(new TrackInfo(track.name, url, track.preview_url));
+                    mTrackInfoList.add(new TrackInfo(track.name, url, track.preview_url, track.artists.get(0).name));
                 } catch (Exception e) {
-                    mTrackInfoList.add(new TrackInfo(track.name, null, track.preview_url));
+                    mTrackInfoList.add(new TrackInfo(track.name, null, track.preview_url, track.artists.get(0).name));
                 }
             }
             mArtistTopTenAdapter.addAll(mTrackInfoList);
