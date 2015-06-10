@@ -21,6 +21,7 @@ public class TrackInfo implements Parcelable {
         }
     };
     private String trackName;
+    private String albumName;
     private String imageUrl;
     private String trackUrl;
     private String artistName;
@@ -29,8 +30,9 @@ public class TrackInfo implements Parcelable {
         super();
     }
 
-    public TrackInfo(String trackName, String imageUrl, String trackUri, String artistName) {
+    public TrackInfo(String trackName, String albumName, String imageUrl, String trackUri, String artistName) {
         this.trackName = trackName;
+        this.albumName = albumName;
         this.imageUrl = imageUrl;
         this.trackUrl = trackUri;
         this.artistName = artistName;
@@ -38,6 +40,7 @@ public class TrackInfo implements Parcelable {
 
     private TrackInfo(Parcel in) {
         trackName = in.readString();
+        albumName = in.readString();
         imageUrl = in.readString();
         trackUrl = in.readString();
         artistName = in.readString();
@@ -51,6 +54,7 @@ public class TrackInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(trackName);
+        dest.writeString(albumName);
         dest.writeString(imageUrl);
         dest.writeString(trackUrl);
         dest.writeString(artistName);
@@ -58,6 +62,10 @@ public class TrackInfo implements Parcelable {
 
     public String getTrackName() {
         return trackName;
+    }
+
+    public String getAlbumName() {
+        return albumName;
     }
 
     public String getImageUrl() {

@@ -11,15 +11,31 @@
         android:src="@mipmap/ic_launcher"
         android:padding="@dimen/padding"
         android:contentDescription="@string/track_image_descripton"
-        android:id="@+id/track_item_imageview"/>
+        android:id="@+id/track_item_imageview"
+        android:layout_gravity="center_vertical" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/track_item_textview"
-        android:text="Top Ten Track"
-        android:layout_gravity="center"
-        android:padding="@dimen/padding"
-        android:textSize="@dimen/text_size"
-        android:lines="1" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/track_item_textview"
+            android:text="Top Ten Track"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/text_size_large"
+            android:lines="1" />
+
+        <TextView
+            android:layout_width="318dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/track_album_item_textview"
+            android:text="Album Name"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/text_size_small"
+            android:lines="1" />
+    </LinearLayout>
+
 </LinearLayout>

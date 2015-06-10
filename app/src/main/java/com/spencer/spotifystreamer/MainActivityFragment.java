@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,6 +154,9 @@ public class MainActivityFragment extends Fragment {
                     url = null;
                 }
                 mSpotifyArtists.add(new SpotifyArtist(artists.get(i).name, url, artists.get(i).id));
+            }
+            if (mSpotifyArtists.isEmpty()) {
+                Toast.makeText(getActivity(), getString(R.string.no_artist_found), Toast.LENGTH_SHORT).show();
             }
             mArtistAdapter.addAll(mSpotifyArtists);
         }

@@ -135,9 +135,9 @@ public class TopTenActivityFragment extends Fragment {
                     } else {
                         url = track.album.images.get(0).url;
                     }
-                    mTrackInfoList.add(new TrackInfo(track.name, url, track.preview_url, track.artists.get(0).name));
+                    mTrackInfoList.add(new TrackInfo(track.name, track.album.name, url, track.preview_url, track.artists.get(0).name));
                 } catch (Exception e) {
-                    mTrackInfoList.add(new TrackInfo(track.name, null, track.preview_url, track.artists.get(0).name));
+                    mTrackInfoList.add(new TrackInfo(track.name, track.album.name, null, track.preview_url, track.artists.get(0).name));
                 }
             }
             mArtistTopTenAdapter.addAll(mTrackInfoList);

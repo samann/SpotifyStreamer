@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Created by DroidOwl on 6/4/15.
+ *
  */
 public class SpotifyArtistAdapter extends ArrayAdapter {
 
@@ -37,7 +38,7 @@ public class SpotifyArtistAdapter extends ArrayAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.name.setText(spotifyArtist.getName());
-        Picasso.with(getContext()).load(spotifyArtist.getImageUrl()).resize(150, 150).placeholder(R.mipmap.place_holder_image).into(viewHolder.image);
+        Picasso.with(getContext()).load(spotifyArtist.getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.image);
         return convertView;
     }
 

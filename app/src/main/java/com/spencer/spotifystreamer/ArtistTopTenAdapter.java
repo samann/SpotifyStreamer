@@ -32,18 +32,21 @@ public class ArtistTopTenAdapter extends ArrayAdapter<TrackInfo> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.track_list_item, parent, false);
             viewHolder.trackNameView = (TextView) convertView.findViewById(R.id.track_item_textview);
+            viewHolder.albumNameView = (TextView) convertView.findViewById(R.id.track_album_item_textview);
             viewHolder.trackImageView = (ImageView) convertView.findViewById(R.id.track_item_imageview);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.trackNameView.setText(track.getTrackName());
-        Picasso.with(getContext()).load(track.getImageUrl()).resize(150, 150).placeholder(R.mipmap.place_holder_image).into(viewHolder.trackImageView);
+        viewHolder.albumNameView.setText(track.getAlbumName());
+        Picasso.with(getContext()).load(track.getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.trackImageView);
         return convertView;
     }
 
     private class ViewHolder {
         TextView trackNameView;
+        TextView albumNameView;
         ImageView trackImageView;
     }
 }

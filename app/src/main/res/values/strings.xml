@@ -13,4 +13,5 @@
     <string name="back_button">back</string>
     <string name="saved_artist_list">savedArtistList</string>
     <string name="saved_track_list">savedTrackList</string>
+    <string name="no_artist_found">No artist found. Try a different search!</string>
 </resources>

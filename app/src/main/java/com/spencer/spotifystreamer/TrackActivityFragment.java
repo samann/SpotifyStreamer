@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +32,6 @@ public class TrackActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Intent intent = getActivity().getIntent();
-        String trackName = intent.getStringExtra("trackName");
         String imageUrl = intent.getStringExtra("imageUrl");
         String trackUrl = intent.getStringExtra("trackUrl");
         View rootView = inflater.inflate(R.layout.fragment_track, container, false);
@@ -41,11 +39,9 @@ public class TrackActivityFragment extends Fragment {
         final SeekBar seekBar = (SeekBar) rootView.findViewById(R.id.track_seekbar);
         Picasso.with(getActivity())
                 .load(imageUrl)
-                .placeholder(R.mipmap.place_holder_image)
+                .placeholder(R.mipmap.spotify_placeholder_image)
                 .into((ImageView) rootView
                         .findViewById(R.id.track_played_imageview));
-        TextView trackText = (TextView) rootView.findViewById(R.id.track_name_textview);
-        trackText.setText(trackName);
 
         startMediaPlayer(trackUrl, playButton, seekBar);
 

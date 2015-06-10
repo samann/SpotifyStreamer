@@ -39,6 +39,10 @@ public class TrackActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == android.R.id.home) {
+            this.finish();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
