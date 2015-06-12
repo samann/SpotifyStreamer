@@ -1,4 +1,4 @@
-package com.spencer.spotifystreamer;
+package com.spencer.spotifystreamer.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -17,6 +17,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.spencer.spotifystreamer.R;
+import com.spencer.spotifystreamer.activities.TopTenActivity;
+import com.spencer.spotifystreamer.adapter.SpotifyArtistAdapter;
+import com.spencer.spotifystreamer.model.SpotifyArtist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +57,7 @@ public class SearchActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         final EditText searchText = (EditText) rootView.findViewById(R.id.search_edittext);
 
         mListView = (ListView) rootView.findViewById(R.id.search_list_view);
@@ -140,10 +145,9 @@ public class SearchActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Artist> artists) {
             super.onPostExecute(artists);
-            mArtistAdapter.clear();
             String url;
+            mArtistAdapter.clear();
             for (Artist a : artists) {
-                Log.d(TAG, "List Size: " + artists.size());
                 try {
                     int width = a.images.get(0).width;
                     if (width > 300) {
@@ -160,9 +164,8 @@ public class SearchActivityFragment extends Fragment {
             if (mSpotifyArtists.isEmpty()) {
                 Toast.makeText(getActivity(), getString(R.string.no_artist_found), Toast.LENGTH_SHORT).show();
             }
-            Log.d(TAG, "Array Size: " + mSpotifyArtists.size());
+
             mArtistAdapter.addAll(mSpotifyArtists);
-            Log.d(TAG, "Adapter Size: " + mArtistAdapter.getCount());
         }
     }
 }

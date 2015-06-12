@@ -1,4 +1,4 @@
-package com.spencer.spotifystreamer;
+package com.spencer.spotifystreamer.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

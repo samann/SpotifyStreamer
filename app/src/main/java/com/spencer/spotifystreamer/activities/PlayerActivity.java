@@ -1,39 +1,32 @@
-package com.spencer.spotifystreamer;
+package com.spencer.spotifystreamer.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class TopTenActivity extends Activity {
+import com.spencer.spotifystreamer.R;
+
+public class PlayerActivity extends Activity {
 
     private String artistName;
-
+    private String trackName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
-            if (getIntent() != null && getIntent().hasExtra("artistName")) {
-                artistName = getIntent().getStringExtra("artistName");
-            } else {
-                artistName = "";
-            }
-        } else {
-            artistName = savedInstanceState.getString("artistName");
-        }
-
+        setContentView(R.layout.activity_track);
+        artistName = getIntent().getStringExtra("artistName");
+        trackName = getIntent().getStringExtra("trackName");
         assert getActionBar() != null;
-        getActionBar().setTitle(R.string.app_name);
-        getActionBar().setSubtitle(artistName);
-        setContentView(R.layout.activity_top_ten);
+        getActionBar().setTitle(artistName);
+        getActionBar().setSubtitle(trackName);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_top_ten, menu);
+        getMenuInflater().inflate(R.menu.menu_track, menu);
         return true;
     }
 
@@ -57,8 +50,9 @@ public class TopTenActivity extends Activity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putString("artistName", artistName);
+        outState.putString("trackName", trackName);
     }
 }

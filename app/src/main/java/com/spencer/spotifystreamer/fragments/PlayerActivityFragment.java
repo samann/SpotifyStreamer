@@ -1,4 +1,4 @@
-package com.spencer.spotifystreamer;
+package com.spencer.spotifystreamer.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import com.spencer.spotifystreamer.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;

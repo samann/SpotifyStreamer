@@ -1,9 +1,11 @@
-package com.spencer.spotifystreamer;
+package com.spencer.spotifystreamer.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.spencer.spotifystreamer.R;
 
 
 public class SearchActivity extends Activity {

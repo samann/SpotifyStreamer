@@ -1,4 +1,4 @@
-package com.spencer.spotifystreamer;
+package com.spencer.spotifystreamer.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.spencer.spotifystreamer.R;
+import com.spencer.spotifystreamer.model.TrackInfo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,13 +21,15 @@ import java.util.ArrayList;
  */
 public class ArtistTopTenAdapter extends ArrayAdapter<TrackInfo> {
 
+    private ArrayList<TrackInfo> mTrackInfo = new ArrayList<>();
+
     public ArtistTopTenAdapter(Context context, ArrayList<TrackInfo> topTenArrayList) {
         super(context, 0, topTenArrayList);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TrackInfo track = getItem(position);
+        TrackInfo trackInfo = mTrackInfo.get(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -38,10 +42,24 @@ public class ArtistTopTenAdapter extends ArrayAdapter<TrackInfo> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.trackNameView.setText(track.getTrackName());
-        viewHolder.albumNameView.setText(track.getAlbumName());
-        Picasso.with(getContext()).load(track.getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.trackImageView);
+        viewHolder.trackNameView.setText(trackInfo.getTrackName());
+        viewHolder.albumNameView.setText(trackInfo.getAlbumName());
+        Picasso.with(getContext()).load(trackInfo.getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.trackImageView);
         return convertView;
+    }
+
+    public void addAll(ArrayList<TrackInfo> tracks) {
+        for (TrackInfo track : tracks) {
+            mTrackInfo.add(track);
+        }
+        setNotifyOnChange(true);
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        mTrackInfo.clear();
     }
 
     private class ViewHolder {

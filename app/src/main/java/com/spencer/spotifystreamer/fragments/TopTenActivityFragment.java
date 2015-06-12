@@ -1,4 +1,4 @@
-package com.spencer.spotifystreamer;
+package com.spencer.spotifystreamer.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -10,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.spencer.spotifystreamer.R;
+import com.spencer.spotifystreamer.activities.PlayerActivity;
+import com.spencer.spotifystreamer.adapter.ArtistTopTenAdapter;
+import com.spencer.spotifystreamer.model.TrackInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -122,6 +127,7 @@ public class TopTenActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(Tracks tracks) {
             super.onPostExecute(tracks);
+            mArtistTopTenAdapter.clear();
             if (tracks == null) {
                 Log.e(TAG, "tracks is null");
                 return;
