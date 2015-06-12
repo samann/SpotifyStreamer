@@ -32,15 +32,16 @@ import retrofit.RetrofitError;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class SearchActivityFragment extends Fragment {
 
     private final String TAG = "spotify-streamer";
     private ArrayList<SpotifyArtist> mSpotifyArtists;
     private SpotifyArtistAdapter mArtistAdapter;
     private ListView mListView;
     private String mSearchQueryText;
+    private List<Artist> mArtists;
 
-    public MainActivityFragment() {
+    public SearchActivityFragment() {
     }
 
     @Override
@@ -112,10 +113,10 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void searchForArtist(String artistName) {
-        new SpotifyTask().execute(artistName);
+        new SearchTask().execute(artistName);
     }
 
-    private class SpotifyTask extends AsyncTask<String, Void, List<Artist>> {
+    private class SearchTask extends AsyncTask<String, Void, List<Artist>> {
 
         @Override
         protected List<Artist> doInBackground(String... params) {
@@ -141,24 +142,27 @@ public class MainActivityFragment extends Fragment {
             super.onPostExecute(artists);
             mArtistAdapter.clear();
             String url;
-            for (int i = 0; i < artists.size(); i++) {
+            for (Artist a : artists) {
+                Log.d(TAG, "List Size: " + artists.size());
                 try {
-                    int width = artists.get(i).images.get(0).width;
+                    int width = a.images.get(0).width;
                     if (width > 300) {
-                        url = artists.get(i).images.get(1).url;
+                        url = a.images.get(1).url;
                     } else {
-                        url = artists.get(i).images.get(0).url;
+                        url = a.images.get(0).url;
                     }
                 } catch (Exception e) {
                     //NOP
                     url = null;
                 }
-                mSpotifyArtists.add(new SpotifyArtist(artists.get(i).name, url, artists.get(i).id));
+                mSpotifyArtists.add(new SpotifyArtist(a.name, url, a.id));
             }
             if (mSpotifyArtists.isEmpty()) {
                 Toast.makeText(getActivity(), getString(R.string.no_artist_found), Toast.LENGTH_SHORT).show();
             }
+            Log.d(TAG, "Array Size: " + mSpotifyArtists.size());
             mArtistAdapter.addAll(mSpotifyArtists);
+            Log.d(TAG, "Adapter Size: " + mArtistAdapter.getCount());
         }
     }
 }

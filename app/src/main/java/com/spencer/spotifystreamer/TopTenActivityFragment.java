@@ -69,7 +69,7 @@ public class TopTenActivityFragment extends Fragment {
                 String imageUrl = trackInfo.getImageUrl();
                 String trackUrl = trackInfo.getTrackUrl();
                 String artistName = trackInfo.getArtistName();
-                Intent trackIntent = new Intent(getActivity(), TrackActivity.class);
+                Intent trackIntent = new Intent(getActivity(), PlayerActivity.class);
 
                 trackIntent.putExtra("trackName", trackName);
                 trackIntent.putExtra("imageUrl", imageUrl);

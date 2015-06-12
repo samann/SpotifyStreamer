@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class TrackActivity extends Activity {
+public class PlayerActivity extends Activity {
 
     private String artistName;
     private String trackName;

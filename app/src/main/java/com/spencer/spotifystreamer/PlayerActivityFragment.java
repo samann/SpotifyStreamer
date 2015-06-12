@@ -20,12 +20,13 @@ import java.io.IOException;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TrackActivityFragment extends Fragment {
+public class PlayerActivityFragment extends Fragment {
 
     private Boolean isPlayingNow = false;
     private android.os.Handler mHandler = new android.os.Handler();
     private MediaPlayer mMediaPlayer;
-    public TrackActivityFragment() {
+
+    public PlayerActivityFragment() {
     }
 
     @Override
