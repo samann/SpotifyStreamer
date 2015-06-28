@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.spencer.spotifystreamer.R;
+import com.spencer.spotifystreamer.fragments.TopTenActivityFragment;
 
 public class TopTenActivity extends Activity {
 
@@ -15,20 +16,23 @@ public class TopTenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_top_ten);
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().hasExtra("artistName")) {
                 artistName = getIntent().getStringExtra("artistName");
             } else {
                 artistName = "";
             }
+            getFragmentManager().beginTransaction()
+                    .add(R.id.top_ten_container, new TopTenActivityFragment())
+                    .commit();
         } else {
             artistName = savedInstanceState.getString("artistName");
         }
-
         assert getActionBar() != null;
         getActionBar().setTitle(R.string.app_name);
         getActionBar().setSubtitle(artistName);
-        setContentView(R.layout.activity_top_ten);
+
     }
 
 

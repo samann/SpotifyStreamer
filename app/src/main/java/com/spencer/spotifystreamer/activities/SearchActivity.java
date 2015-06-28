@@ -6,14 +6,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.spencer.spotifystreamer.R;
+import com.spencer.spotifystreamer.fragments.TopTenActivityFragment;
 
 
 public class SearchActivity extends Activity {
 
+    private boolean mTwoPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_search_main);
+
+        if (findViewById(R.id.top_ten_container) != null) {
+            mTwoPane = true;
+            if (savedInstanceState == null) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.top_ten_container, new TopTenActivityFragment())
+                        .commit();
+            } else {
+                mTwoPane = false;
+            }
+        }
     }
 
 
