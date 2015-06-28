@@ -29,7 +29,6 @@ public class SpotifyArtistAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        SpotifyArtist spotifyArtist = mSpotifyArtists.get(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -41,8 +40,8 @@ public class SpotifyArtistAdapter extends ArrayAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.name.setText(spotifyArtist.getName());
-        Picasso.with(getContext()).load(spotifyArtist.getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.image);
+        viewHolder.name.setText(mSpotifyArtists.get(position).getName());
+        Picasso.with(getContext()).load(mSpotifyArtists.get(position).getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.image);
         return convertView;
     }
 

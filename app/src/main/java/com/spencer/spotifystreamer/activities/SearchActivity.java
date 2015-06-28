@@ -1,15 +1,17 @@
 package com.spencer.spotifystreamer.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.spencer.spotifystreamer.R;
+import com.spencer.spotifystreamer.fragments.SearchActivityFragment;
 import com.spencer.spotifystreamer.fragments.TopTenActivityFragment;
 
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends Activity implements SearchActivityFragment.Callback {
 
     private boolean mTwoPane;
 
@@ -55,5 +57,28 @@ public class SearchActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(String artistId, String artistName) {
+        if (mTwoPane) {
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            Bundle args = new Bundle();
+            args.putString("artistId", artistId);
+            args.putString("artistName", artistName);
+            TopTenActivityFragment fragment = new TopTenActivityFragment();
+            fragment.setArguments(args);
+
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.top_ten_container, fragment)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, TopTenActivity.class);
+            intent.putExtra("artistId", artistId);
+            intent.putExtra("artistName", artistName);
+            startActivity(intent);
+        }
     }
 }

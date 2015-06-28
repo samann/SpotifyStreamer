@@ -13,9 +13,10 @@
         android:layout_height="match_parent"
         android:id="@+id/fragment_search"
         android:layout_weight="2"
+        android:name="com.spencer.spotifystreamer.fragments.SearchActivityFragment"
         tools:layout="@layout/fragment_search"
         />
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="4"

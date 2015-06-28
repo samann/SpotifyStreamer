@@ -41,13 +41,13 @@ public class TopTenActivityFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
             Intent intent = getActivity().getIntent();
-            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                String name = intent.getExtras().getString(Intent.EXTRA_TEXT);
-                searchTopTen(name);
+            if (intent != null && intent.hasExtra("artistId")) {
+                String artistId = intent.getStringExtra("artistId");
+                searchTopTen(artistId);
             }
         } else {
             mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
@@ -92,7 +92,9 @@ public class TopTenActivityFragment extends Fragment {
                 getActivity(),
                 mTrackInfoList
         );
-        mListView.setAdapter(mArtistTopTenAdapter);
+        if (mListView != null) {
+            mListView.setAdapter(mArtistTopTenAdapter);
+        }
     }
 
     @Override

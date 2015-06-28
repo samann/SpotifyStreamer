@@ -84,11 +84,8 @@ public class SearchActivityFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SpotifyArtist artist = (SpotifyArtist) mArtistAdapter.getItem(position);
                 String artistId = artist.getId();
-                Intent intent = new Intent(getActivity(), TopTenActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, artistId)
-                        .putExtra("artistName", artist.getName());
-
-                startActivity(intent);
+                String artistName = artist.getName();
+                ((Callback) getActivity()).onItemSelected(artistId, artistName);
             }
         });
         return rootView;
@@ -119,6 +116,11 @@ public class SearchActivityFragment extends Fragment {
 
     private void searchForArtist(String artistName) {
         new SearchTask().execute(artistName);
+    }
+
+    public interface Callback {
+
+        void onItemSelected(String artistId, String artistName);
     }
 
     private class SearchTask extends AsyncTask<String, Void, List<Artist>> {
