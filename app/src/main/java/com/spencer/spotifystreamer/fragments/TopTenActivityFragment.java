@@ -43,16 +43,11 @@ public class TopTenActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState == null) {
-            Intent intent = getActivity().getIntent();
-            if (intent != null && intent.hasExtra("artistId")) {
-                String artistId = intent.getStringExtra("artistId");
-                searchTopTen(artistId);
-            }
-        } else {
+        if (savedInstanceState != null) {
             mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
+            bindView();
         }
-        bindView();
+
     }
 
     @Override
@@ -60,12 +55,22 @@ public class TopTenActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_top_ten, container, false);
+        Intent intent = getActivity().getIntent();
+
+            if (getArguments() != null) {
+                String artistId = getArguments().getString("artistId");
+                searchTopTen(artistId);
+            } else if (intent.hasExtra("artistId")) {
+                String artistId = intent.getStringExtra("artistId");
+                searchTopTen(artistId);
+            }
+
 
 
         mListView = (ListView) rootView.findViewById(R.id.top_ten_listview);
 
         mTrackInfoList = new ArrayList<>();
-
+        bindView();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

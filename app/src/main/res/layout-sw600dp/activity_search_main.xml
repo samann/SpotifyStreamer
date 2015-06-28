@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
-    tools:context="com.spencer.spotifystreamer.fragments.SearchActivityFragment">
+    tools:context="com.spencer.spotifystreamer.activities.SearchActivity">
 
     <fragment
         android:layout_width="0dp"

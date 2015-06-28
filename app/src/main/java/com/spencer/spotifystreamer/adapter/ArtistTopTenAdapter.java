@@ -29,7 +29,6 @@ public class ArtistTopTenAdapter extends ArrayAdapter<TrackInfo> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TrackInfo trackInfo = mTrackInfo.get(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -42,9 +41,9 @@ public class ArtistTopTenAdapter extends ArrayAdapter<TrackInfo> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.trackNameView.setText(trackInfo.getTrackName());
-        viewHolder.albumNameView.setText(trackInfo.getAlbumName());
-        Picasso.with(getContext()).load(trackInfo.getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.trackImageView);
+        viewHolder.trackNameView.setText(mTrackInfo.get(position).getTrackName());
+        viewHolder.albumNameView.setText(mTrackInfo.get(position).getAlbumName());
+        Picasso.with(getContext()).load(mTrackInfo.get(position).getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.trackImageView);
         return convertView;
     }
 

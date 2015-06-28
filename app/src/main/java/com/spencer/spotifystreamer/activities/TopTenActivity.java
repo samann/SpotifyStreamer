@@ -1,5 +1,6 @@
 package com.spencer.spotifystreamer.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -17,21 +18,21 @@ public class TopTenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_ten);
-        if (savedInstanceState == null) {
-            if (getIntent() != null && getIntent().hasExtra("artistName")) {
-                artistName = getIntent().getStringExtra("artistName");
-            } else {
-                artistName = "";
-            }
+        if (savedInstanceState != null) {
+//            if (getIntent() != null && getIntent().hasExtra("artistName")) {
+//                artistName = getIntent().getStringExtra("artistName");
+//            } else {
+//                artistName = "";
+//            }
             getFragmentManager().beginTransaction()
                     .add(R.id.top_ten_container, new TopTenActivityFragment())
                     .commit();
         } else {
-            artistName = savedInstanceState.getString("artistName");
+//            artistName = savedInstanceState.getString("artistName");
         }
-        assert getActionBar() != null;
-        getActionBar().setTitle(R.string.app_name);
-        getActionBar().setSubtitle(artistName);
+//        assert getActionBar() != null;
+//        getActionBar().setTitle(R.string.app_name);
+//        getActionBar().setSubtitle(artistName);
 
     }
 
