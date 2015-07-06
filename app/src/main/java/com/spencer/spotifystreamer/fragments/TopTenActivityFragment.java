@@ -46,6 +46,8 @@ public class TopTenActivityFragment extends Fragment {
         if (savedInstanceState != null) {
             mTrackInfoList = savedInstanceState.getParcelableArrayList(getString(R.string.saved_track_list));
             bindView();
+        } else {
+
         }
 
     }

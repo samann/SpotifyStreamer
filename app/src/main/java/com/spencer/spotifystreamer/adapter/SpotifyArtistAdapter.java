@@ -18,9 +18,7 @@ import java.util.ArrayList;
  * Created by DroidOwl on 6/4/15.
  *
  */
-public class SpotifyArtistAdapter extends ArrayAdapter {
-
-    private ArrayList<SpotifyArtist> mSpotifyArtists = new ArrayList<>();
+public class SpotifyArtistAdapter extends ArrayAdapter<SpotifyArtist> {
 
     public SpotifyArtistAdapter(Context context, ArrayList<SpotifyArtist> artists) {
         super(context, 0, artists);
@@ -28,7 +26,7 @@ public class SpotifyArtistAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        SpotifyArtist spotifyArtist = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -40,26 +38,12 @@ public class SpotifyArtistAdapter extends ArrayAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.name.setText(mSpotifyArtists.get(position).getName());
-        Picasso.with(getContext()).load(mSpotifyArtists.get(position).getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.image);
+        viewHolder.name.setText(spotifyArtist.getName());
+        Picasso.with(getContext()).load(spotifyArtist.getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.image);
         return convertView;
     }
 
-    public void addAll(ArrayList<SpotifyArtist> artists) {
-        for (SpotifyArtist a : artists) {
-            mSpotifyArtists.add(a);
-        }
-        setNotifyOnChange(true);
-        this.notifyDataSetChanged();
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
-        mSpotifyArtists.clear();
-    }
-
-    private static class ViewHolder {
+    private class ViewHolder {
         TextView name;
         ImageView image;
     }

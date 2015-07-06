@@ -2,7 +2,6 @@ package com.spencer.spotifystreamer.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.spencer.spotifystreamer.R;
-import com.spencer.spotifystreamer.activities.TopTenActivity;
 import com.spencer.spotifystreamer.adapter.SpotifyArtistAdapter;
 import com.spencer.spotifystreamer.model.SpotifyArtist;
 
@@ -61,7 +59,11 @@ public class SearchActivityFragment extends Fragment {
         final EditText searchText = (EditText) rootView.findViewById(R.id.search_edittext);
 
         mListView = (ListView) rootView.findViewById(R.id.search_list_view);
-        mSpotifyArtists = new ArrayList<>();
+        if (savedInstanceState != null) {
+            mSpotifyArtists = savedInstanceState.getParcelableArrayList(getString(R.string.saved_artist_list));
+        } else {
+            mSpotifyArtists = new ArrayList<>();
+        }
         bindView();
 
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -82,7 +84,7 @@ public class SearchActivityFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SpotifyArtist artist = (SpotifyArtist) mArtistAdapter.getItem(position);
+                SpotifyArtist artist = mArtistAdapter.getItem(position);
                 String artistId = artist.getId();
                 String artistName = artist.getName();
                 ((Callback) getActivity()).onItemSelected(artistId, artistName);

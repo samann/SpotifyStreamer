@@ -1,6 +1,5 @@
 package com.spencer.spotifystreamer.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -27,8 +26,6 @@ public class TopTenActivity extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.top_ten_container, new TopTenActivityFragment())
                     .commit();
-        } else {
-//            artistName = savedInstanceState.getString("artistName");
         }
 //        assert getActionBar() != null;
 //        getActionBar().setTitle(R.string.app_name);

@@ -21,14 +21,13 @@ import java.util.ArrayList;
  */
 public class ArtistTopTenAdapter extends ArrayAdapter<TrackInfo> {
 
-    private ArrayList<TrackInfo> mTrackInfo = new ArrayList<>();
-
     public ArtistTopTenAdapter(Context context, ArrayList<TrackInfo> topTenArrayList) {
         super(context, 0, topTenArrayList);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        TrackInfo trackInfo = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -41,24 +40,10 @@ public class ArtistTopTenAdapter extends ArrayAdapter<TrackInfo> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.trackNameView.setText(mTrackInfo.get(position).getTrackName());
-        viewHolder.albumNameView.setText(mTrackInfo.get(position).getAlbumName());
-        Picasso.with(getContext()).load(mTrackInfo.get(position).getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.trackImageView);
+        viewHolder.trackNameView.setText(trackInfo.getTrackName());
+        viewHolder.albumNameView.setText(trackInfo.getAlbumName());
+        Picasso.with(getContext()).load(trackInfo.getImageUrl()).resize(150, 150).placeholder(R.mipmap.spotify_placeholder_image).into(viewHolder.trackImageView);
         return convertView;
-    }
-
-    public void addAll(ArrayList<TrackInfo> tracks) {
-        for (TrackInfo track : tracks) {
-            mTrackInfo.add(track);
-        }
-        setNotifyOnChange(true);
-        this.notifyDataSetChanged();
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
-        mTrackInfo.clear();
     }
 
     private class ViewHolder {
