@@ -64,7 +64,7 @@ public class SearchActivityFragment extends Fragment {
         } else {
             mSpotifyArtists = new ArrayList<>();
         }
-        bindView();
+
 
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -80,7 +80,7 @@ public class SearchActivityFragment extends Fragment {
                 return handled;
             }
         });
-
+        bindView();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,6 +120,31 @@ public class SearchActivityFragment extends Fragment {
         new SearchTask().execute(artistName);
     }
 
+    public void createSpotifyArtists(List<Artist> spotifyArtists) {
+        String url;
+        mArtistAdapter.clear();
+        for (Artist a : spotifyArtists) {
+            try {
+                int width = a.images.get(0).width;
+                if (width > 300) {
+                    url = a.images.get(1).url;
+                } else {
+                    url = a.images.get(0).url;
+                }
+            } catch (Exception e) {
+                //NOP
+                url = null;
+            }
+            SpotifyArtist spotifyArtist = new SpotifyArtist(a.name, url, a.id);
+            mSpotifyArtists.add(spotifyArtist);
+        }
+        if (mSpotifyArtists.isEmpty()) {
+            Toast.makeText(getActivity(), getString(R.string.no_artist_found), Toast.LENGTH_SHORT).show();
+        }
+
+        mArtistAdapter.addAll(mSpotifyArtists);
+    }
+
     public interface Callback {
 
         void onItemSelected(String artistId, String artistName);
@@ -149,27 +174,7 @@ public class SearchActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Artist> artists) {
             super.onPostExecute(artists);
-            String url;
-            mArtistAdapter.clear();
-            for (Artist a : artists) {
-                try {
-                    int width = a.images.get(0).width;
-                    if (width > 300) {
-                        url = a.images.get(1).url;
-                    } else {
-                        url = a.images.get(0).url;
-                    }
-                } catch (Exception e) {
-                    //NOP
-                    url = null;
-                }
-                mSpotifyArtists.add(new SpotifyArtist(a.name, url, a.id));
-            }
-            if (mSpotifyArtists.isEmpty()) {
-                Toast.makeText(getActivity(), getString(R.string.no_artist_found), Toast.LENGTH_SHORT).show();
-            }
-
-            mArtistAdapter.addAll(mSpotifyArtists);
+            createSpotifyArtists(artists);
         }
     }
 }

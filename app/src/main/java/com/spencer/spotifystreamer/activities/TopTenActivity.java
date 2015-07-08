@@ -23,9 +23,9 @@ public class TopTenActivity extends Activity {
 //            } else {
 //                artistName = "";
 //            }
-            getFragmentManager().beginTransaction()
-                    .add(R.id.top_ten_container, new TopTenActivityFragment())
-                    .commit();
+//            getFragmentManager().beginTransaction()
+//                    .add(R.id.top_ten_container, new TopTenActivityFragment())
+//                    .commit();
         }
 //        assert getActionBar() != null;
 //        getActionBar().setTitle(R.string.app_name);

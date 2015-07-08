@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class SpotifyArtistAdapter extends ArrayAdapter<SpotifyArtist> {
 
     public SpotifyArtistAdapter(Context context, ArrayList<SpotifyArtist> artists) {
-        super(context, 0, artists);
+        super(context, R.layout.search_list_item, artists);
     }
 
     @Override

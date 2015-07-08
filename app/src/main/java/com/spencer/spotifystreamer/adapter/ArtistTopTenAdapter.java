@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class ArtistTopTenAdapter extends ArrayAdapter<TrackInfo> {
 
     public ArtistTopTenAdapter(Context context, ArrayList<TrackInfo> topTenArrayList) {
-        super(context, 0, topTenArrayList);
+        super(context, R.layout.track_list_item, topTenArrayList);
     }
 
     @Override
